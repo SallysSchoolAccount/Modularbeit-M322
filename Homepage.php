@@ -1,151 +1,65 @@
 <?php
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Database connection
 $conn = new mysqli("localhost", "root", "", "books");
-$result = mysqli_query($conn, "SELECT * FROM buecher");
-$row = mysqli_fetch_assoc($result)
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch data from the database
+$result = mysqli_query($conn, "SELECT * FROM buecher LIMIT 3");
+
+// Check if query was successful
+if (!$result) {
+    die("Query failed: " . mysqli_error($conn));
+}
+
+$books = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $books[] = $row;
+}
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="UTF-8">
-  <title>Antiquariat Bieber</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossorigin="anonymous">
-</head>
-<body>
-
-<!--Header-->
-<div class="container">
-  <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-    <div class="col-md-3 mb-2 mb-md-0">
-      <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-        <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-      </a>
-    </div>
-
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-      <li><a href="#" class="nav-link px-2">Features</a></li>
-      <li><a href="#" class="nav-link px-2">Pricing</a></li>
-      <li><a href="#" class="nav-link px-2">FAQs</a></li>
-      <li><a href="#" class="nav-link px-2">About</a></li>
-    </ul>
-
-    <div class="col-md-3 text-end">
-      <button type="button" class="btn btn-outline-primary me-2">Login</button>
-      <button type="button" class="btn btn-primary">Sign-up</button>
-    </div>
-  </header>
-</div>
+<!--Head & Header-->
+<?php include 'elementeWebseite/header.php' ?>
 
 <!--Bestseller Vorschau-->
 <div class="container px-4 py-5" id="custom-cards">
-  <h2 class="pb-2 border-bottom">Custom cards</h2>
+    <h2 class="pb-2 border-bottom">Custom cards</h2>
 
-  <!--Bestseller 1-->
-  <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-    <div class="col">
-      <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+        <?php foreach ($books as $index => $book) { ?>
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
 
-            <!--Name 1-->
-          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold"> Buch 1</h3>
-          <ul class="d-flex list-unstyled mt-auto">
-            <li class="me-auto">
-              <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-            </li>
-
-              <!--Autor 1-->
-            <li class="d-flex align-items-center me-3">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
-              <small>Autor 1</small>
-            </li>
-
-            <li class="d-flex align-items-center">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-              <small></small>
-            </li>
-          </ul>
-        </div>
-      </div>
+                     <!--#TODO Frau Duc fragen--->
+                     style="background-image: url();">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold"><?php echo $book['kurztitle']; ?></h3>
+                        <ul class="d-flex list-unstyled mt-auto">
+                            <!--Autor pic-->
+                            <li class="me-auto">
+                                <!--#TODO Change it with the author pic-->
+                                <img src="images/placeholder.jpeg"
+                                     alt="Bootstrap"
+                                     width="32" height="32"
+                                     class="rounded-circle border border-white">
+                            </li>
+                            <li class="d-flex align-items-center me-3">
+                                <i class="material-icons me-2">person</i>
+                                <small><?php echo $book['autor']; ?></small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
     </div>
-
-    <!--Bestseller 2-->
-    <div class="col">
-      <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-2.jpg');">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-
-            <!--Name 2-->
-          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Buch 2</h3>
-          <ul class="d-flex list-unstyled mt-auto">
-            <li class="me-auto">
-              <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-            </li>
-
-              <!--Autor 2-->
-            <li class="d-flex align-items-center me-3">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
-              <small>Autor 2</small>
-            </li>
-
-            <li class="d-flex align-items-center">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-              <small></small>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!--Bestseller 3-->
-    <div class="col">
-      <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-3.jpg');">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-
-            <!--Name 3-->
-          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Buch3</h3>
-          <ul class="d-flex list-unstyled mt-auto">
-            <li class="me-auto">
-              <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-            </li>
-
-              <!--Autor 3-->
-            <li class="d-flex align-items-center me-3">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
-              <small>Autor3</small>
-            </li>
-
-            <li class="d-flex align-items-center">
-              <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-              <small></small>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!--Footer-->
-<div class="container">
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-    <div class="col-md-4 d-flex align-items-center">
-      <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-      </a>
-      <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
-    </div>
-
-    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-      <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
-    </ul>
-  </footer>
-</div>
-
-</body>
-</html>
+<?php include 'elementeWebseite/footer.php' ?>

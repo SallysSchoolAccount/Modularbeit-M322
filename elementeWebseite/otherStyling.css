@@ -1,0 +1,18 @@
+body {
+    background-color: black
+}
+
+.nav-link {
+    color: darkgoldenrod;
+}
+.nav-link:hover {
+    color: aliceblue;
+}
+
+.material-icons {
+    color: wheat;
+}
+
+.btn-outline-primary {
+    color: darkgoldenrod;
+}
