@@ -1,18 +1,58 @@
+
 body {
-    background-color: black
+    background-color: #0B0A0A;
+    font-family: "Century", serif;
+    color: #FCFCFC;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #030C11;
+    padding: 10rem 0;
+    width: 100%;
+}
+
+footer {
+    background-color: #030C11;
+    padding: 1rem 0;
+    width: 100%;
+    text-align: center;
+    color: #FCFCFC;
+    margin-top: 2rem;
 }
 
 .nav-link {
-    color: darkgoldenrod;
+    color: #C2A83E;
+    font-family: "Century Gothic", sans-serif;
+    text-decoration: none;
+    margin: 0 1rem;
 }
+
 .nav-link:hover {
     color: aliceblue;
 }
 
 .material-icons {
-    color: wheat;
+    color: #FCFCFC;
 }
 
 .btn-outline-primary {
-    color: darkgoldenrod;
+    color: #C2A83E;
+    border-color: #C2A83E;
+}
+
+.btn-outline-primary:hover {
+    background-color: #C2A83E;
+    color: #030C11;
+}
+
+.pb-2 {
+    color: #FCFCFC;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
