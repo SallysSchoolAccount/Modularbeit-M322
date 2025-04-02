@@ -1,7 +1,7 @@
 
 body {
     background-color: #0B0A0A;
-    font-family: "Century", serif;
+    font-family: "Sitka Text", serif;
     color: #FCFCFC;
     margin: 0;
     padding: 0;
@@ -24,7 +24,7 @@ footer {
 
 .nav-link {
     color: #C2A83E;
-    font-family: "Century Gothic", sans-serif;
+    font-family: "Sitka Text", sans-serif;
     text-decoration: none;
     margin: 0 1rem;
 }

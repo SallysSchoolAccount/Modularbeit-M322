@@ -1,15 +1,16 @@
 <?php
 //Head & Header
 include 'elementeWebseite/header.php';
-//Verbindung Webseite
+//Verbindung Datenbank
 include 'elementeWebseite/database_connection.php';
 
 if (isset($_GET['id'])) {
-    //Damit das ID in das URL angezeigt wird
+    //ID nehmen
     $book_id = $_GET['id'];
 
     //MySQL Befehl
-    $query = "SELECT * FROM buecher WHERE id = ?";
+    $query = "SELECT b.*, z.beschreibung, k.kategorie FROM buecher b, zustaende z, kategorien k WHERE b.id = ? and b.kategorie = k.id and b.zustand = z.zustand;";
+
 
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $book_id);
@@ -17,7 +18,7 @@ if (isset($_GET['id'])) {
     $result = $stmt->get_result();
     $book = $result->fetch_assoc();
 } else {
-    echo "No book ID provided.";
+    echo "Kein Buch vorhanden.";
     exit;
 }
 ?>
@@ -29,8 +30,12 @@ if (isset($_GET['id'])) {
                 <img src="images/book.jpg" alt="Book Cover" class="img-fluid">
             </div>
             <div class="col-md-8">
-                <h4><strong>Autor:</strong> <?php echo htmlspecialchars($book['autor']); ?></h4><br>
-                <p><strong>Beschreibung:</strong> <?php echo htmlspecialchars($book['title']); ?></p>
+                <h4><strong>Autor: </strong> <?php echo htmlspecialchars($book['autor']); ?></h4>
+                <h5><strong>ID: </strong><?php echo htmlspecialchars($book['id'])?></h5>
+                <h5><strong>Kategorie: </strong> <?php echo htmlspecialchars($book['kategorie']); ?></h5>
+                <h5><strong>Zustand: </strong><?php echo htmlspecialchars($book['beschreibung']);?></h5><br>
+
+                <p><strong>Beschreibung: </strong> <?php echo htmlspecialchars($book['title']); ?></p>
             </div>
         </div>
     </div>

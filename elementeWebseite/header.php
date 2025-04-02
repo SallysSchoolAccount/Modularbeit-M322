@@ -27,14 +27,13 @@
         <!--Navbar-->
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="home.php" class="nav-link px-2">Home</a></li>
-            <li><a href="autoren.php" class="nav-link px-2">Autoren</a></li>
             <li><a href="suchen.php" class="nav-link px-2">Suchen</a></li>
             <li><a href="überUns.php" class="nav-link px-2">über und</a></li>
         </ul>
 
         <!--Login-->
         <div class="col-md-3 text-end">
-            <button type="button" class="btn btn-outline-primary me-2">Login</button>
+            <a href="login.php" class="btn btn-outline-primary me-2">Login</a>
         </div>
     </header>
 </div>
