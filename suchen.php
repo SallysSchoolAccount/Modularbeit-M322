@@ -1,5 +1,6 @@
 <?php
 //Head und Header
+global $conn;
 include 'elementeWebseite/header.php';
 
 // Verbindung Datenbank

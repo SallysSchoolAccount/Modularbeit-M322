@@ -1,4 +1,5 @@
 <?php
+global $conn;
 include 'elementeWebseite/database_connection.php';
 
 // Fetch data from the database
