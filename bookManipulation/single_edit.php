@@ -4,12 +4,12 @@ if (!isset($_SESSION['admin_logged_in'])) {
     header("Location: login.php");
     exit();
 }
-
 global $conn;
 include 'elementeWebseite/database_connection.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
+//Veränderung Funktion
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $kurztitle = $_POST['kurztitle'];
     $autor = $_POST['autor'];
@@ -17,18 +17,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $zustand = $_POST['zustand'];
     $beschreibung = $_POST['beschreibung'];
 
+    // Query und prepared statementum buch zu verändern
     $query = "UPDATE buecher SET 
               kurztitle = ?, 
               autor = ?,
               kategorie = ?, 
-              zustand = ? 
+              zustand = ?
               WHERE id = ?";
-
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ssisi", $kurztitle, $autor, $kategorie, $zustand, $id);
 
     if ($stmt->execute()) {
-        header("Location: bücher_veraendern.php");
+        header("Location: bucherVeraendern_table.php");
         exit();
     }
 }
@@ -44,23 +44,25 @@ include 'elementeWebseite/header.php';
 
     <div class="container">
         <h2 class="pb-2 border-bottom">Buch bearbeiten</h2>
-
         <form method="POST" class="col-md-6">
             <div class="mb-3">
                 <label class="form-label">ID</label>
                 <input type="text" class="form-control" value="<?php echo $book['id']; ?>" disabled>
             </div>
 
+            <!--Titel ändern-->
             <div class="mb-3">
                 <label class="form-label">Titel</label>
                 <input type="text" name="kurztitle" class="form-control" value="<?php echo htmlspecialchars($book['kurztitle']); ?>" required>
             </div>
 
+            <!--Autor ändern-->
             <div class="mb-3">
                 <label class="form-label">Autor</label>
                 <input type="text" name="autor" class="form-control" value="<?php echo htmlspecialchars($book['autor']); ?>" required>
             </div>
 
+            <!--Kategorie ändern-->
             <div class="mb-3">
                 <label class="form-label">Kategorie</label>
                 <select name="kategorie" class="form-control" required>
@@ -93,7 +95,7 @@ include 'elementeWebseite/header.php';
             </div>
 
             <button type="submit" class="btn btn-primary">Speichern</button>
-            <a href="bücher_veraendern.php" class="btn btn-secondary">Zurück</a>
+            <a href="../bucherVeraendern_table.php" class="btn btn-secondary">Zurück</a>
         </form>
     </div>
 

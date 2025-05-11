@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['admin_logged_in'])) {
+    header("Location: login.php");
+    exit();
+}
+
 //Head und Header
 global $conn;
 include 'elementeWebseite/header.php';
@@ -83,37 +89,41 @@ $total_pages = ceil($total_entries / $limit);
 ?>
 
     <div class="container">
-        <h2 class="pb-2 border-bottom">Bücher Suchen</h2>
-        <form method="GET" action="suchen.php">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="pb-2 border-bottom">Bücher Suchen</h2>
+            <a href="buch_hinzufuegen.php" class="btn btn-primary">
+                <i class="material-icons">add</i> Neues Buch
+            </a>
+        </div>
 
-            <!--Suchleiste-->
-            <div class="input-group mb-3">
-                <select class="form-select" name="search_column" style="max-width: 150px;">
-                    <option value="kurztitle" <?php if ($search_column == 'kurztitle') echo 'selected'; ?>>Titel</option>
-                    <option value="autor" <?php if ($search_column == 'autor') echo 'selected'; ?>>Autor</option>
-                    <option value="katalog" <?php if ($search_column == 'katalog') echo 'selected'; ?>>Katalog</option>
-                    <option value="kategorie" <?php if ($search_column == 'kategorie') echo 'selected'; ?>>Kategorie</option>
-                    <option value="id" <?php if ($search_column == 'id') echo 'selected'; ?>>ID</option>
-                </select>
-                <input type="text" class="form-control" name="search" placeholder="Nach Bücher suchen" value="<?php echo htmlspecialchars($suche); ?>">
-                <button class="btn btn-outline-secondary" type="submit">Suchen</button>
-            </div>
+        <!--Suchleiste-->
+        <div class="input-group mb-3">
+            <select class="form-select" name="search_column" style="max-width: 150px;">
+                <option value="kurztitle" <?php if ($search_column == 'kurztitle') echo 'selected'; ?>>Titel</option>
+                <option value="autor" <?php if ($search_column == 'autor') echo 'selected'; ?>>Autor</option>
+                <option value="katalog" <?php if ($search_column == 'katalog') echo 'selected'; ?>>Katalog</option>
+                <option value="kategorie" <?php if ($search_column == 'kategorie') echo 'selected'; ?>>Kategorie</option>
+                <option value="id" <?php if ($search_column == 'id') echo 'selected'; ?>>ID</option>
+            </select>
+            <input type="text" class="form-control" name="search" placeholder="Nach Bücher suchen" value="<?php echo htmlspecialchars($suche); ?>">
+            <button class="btn btn-outline-secondary" type="submit">Suchen</button>
+        </div>
 
-            <!--Sortierleiste-->
-            <div class="input-group mb-3">
-                <label class="input-group-text" for="sort_column">Sort by</label>
-                <select class="form-select" id="sort_column" name="sort_column">
-                    <option value="kurztitle" <?php if ($sortier_collumns == 'kurztitle') echo 'selected'; ?>>Titel</option>
-                    <option value="autor" <?php if ($sortier_collumns == 'autor') echo 'selected'; ?>>Autor</option>
-                    <option value="katalog" <?php if ($sortier_collumns == 'katalog') echo 'selected'; ?>>Katalog</option>
-                    <option value="kategorie" <?php if ($sortier_collumns == 'kategorie') echo 'selected'; ?>>Kategorie</option>
-                    <option value="id" <?php if ($sortier_collumns == 'id') echo 'selected'; ?>>ID</option>
-                </select>
-                <select class="form-select" id="sort_order" name="sort_order">
-                    <option value="ASC" <?php if ($ASCDESC == 'ASC') echo 'selected'; ?>>Aufsteigend</option>
-                    <option value="DESC" <?php if ($ASCDESC == 'DESC') echo 'selected'; ?>>Absteigend</option>
-                </select>
-            </div>
+        <!--Sortierleiste-->
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="sort_column">Sort by</label>
+            <select class="form-select" id="sort_column" name="sort_column">
+                <option value="kurztitle" <?php if ($sortier_collumns == 'kurztitle') echo 'selected'; ?>>Titel</option>
+                <option value="autor" <?php if ($sortier_collumns == 'autor') echo 'selected'; ?>>Autor</option>
+                <option value="katalog" <?php if ($sortier_collumns == 'katalog') echo 'selected'; ?>>Katalog</option>
+                <option value="kategorie" <?php if ($sortier_collumns == 'kategorie') echo 'selected'; ?>>Kategorie</option>
+                <option value="id" <?php if ($sortier_collumns == 'id') echo 'selected'; ?>>ID</option>
+            </select>
+            <select class="form-select" id="sort_order" name="sort_order">
+                <option value="ASC" <?php if ($ASCDESC == 'ASC') echo 'selected'; ?>>Aufsteigend</option>
+                <option value="DESC" <?php if ($ASCDESC == 'DESC') echo 'selected'; ?>>Absteigend</option>
+            </select>
+        </div>
 
         </form>
 
@@ -127,13 +137,14 @@ $total_pages = ceil($total_entries / $limit);
                 <th scope="col">Katalog</th>
                 <th scope="col">Kategorie</th>
                 <th scope="col">Cover</th>
+                <th scope="col">Aktionen</th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($books as $book) { ?>
                 <tr>
                     <td><?php echo htmlspecialchars($book['id']); ?></td>
-                    <td><a href="buchDetails.php?id=<?php echo $book['id']; ?>">
+                    <td><a href="bookManipulation/buchDetails.php?id=<?php echo $book['id']; ?>">
                             <?php echo htmlspecialchars(substr($book['kurztitle'], 0, 35)); ?>
                         </a>
                     </td>
@@ -141,6 +152,11 @@ $total_pages = ceil($total_entries / $limit);
                     <td><?php echo htmlspecialchars($book['katalog'] ?? ''); ?></td>
                     <td><?php echo htmlspecialchars($book['kategorie'] ?? ''); ?></td>
                     <td><img src="images/book.jpg" alt="Book Cover" width="50"></td>
+                    <td>
+                        <a href="bookManipulation/single_edit.php?id=<?php echo $book['id']; ?>" class="btn btn-warning btn-sm">
+                            <i class="material-icons">edit</i>
+                        </a>
+                    </td>
                 </tr>
             <?php } ?>
             </tbody>
@@ -151,7 +167,7 @@ $total_pages = ceil($total_entries / $limit);
             <ul class="pagination">
                 <!-- Previous button -->
                 <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
-                    <a class="page-link" href="<?php if ($page <= 1) { echo '#'; } else { echo "suchen.php?search=".urlencode($suche)."&search_column=".$search_column."&sort_column=".$sortier_collumns."&sort_order=".$ASCDESC."&page=".($page-1); } ?>" aria-label="Previous">
+                    <a class="page-link" href="<?php if ($page <= 1) { echo '#'; } else { echo "bucherSuchen_table.php?search=".urlencode($suche)."&search_column=".$search_column."&sort_column=".$sortier_collumns."&sort_order=".$ASCDESC."&page=".($page-1); } ?>" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -159,7 +175,7 @@ $total_pages = ceil($total_entries / $limit);
                 <!-- First page -->
                 <?php if ($page > 4): ?>
                     <li class="page-item">
-                        <a class="page-link" href="suchen.php?search=<?php echo urlencode($suche); ?>&search_column=<?php echo $search_column; ?>&sort_column=<?php echo $sortier_collumns; ?>&sort_order=<?php echo $ASCDESC; ?>&page=1">1</a>
+                        <a class="page-link" href="bucherSuchen_table.php?search=<?php echo urlencode($suche); ?>&search_column=<?php echo $search_column; ?>&sort_column=<?php echo $sortier_collumns; ?>&sort_order=<?php echo $ASCDESC; ?>&page=1">1</a>
                     </li>
                     <?php if ($page > 5): ?>
                         <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
@@ -173,7 +189,7 @@ $total_pages = ceil($total_entries / $limit);
 
                 for ($i = $start_page; $i <= $end_page; $i++): ?>
                     <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-                        <a class="page-link" href="suchen.php?search=<?php echo urlencode($suche); ?>&search_column=<?php echo $search_column; ?>&sort_column=<?php echo $sortier_collumns; ?>&sort_order=<?php echo $ASCDESC; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        <a class="page-link" href="bucherSuchen_table.php?search=<?php echo urlencode($suche); ?>&search_column=<?php echo $search_column; ?>&sort_column=<?php echo $sortier_collumns; ?>&sort_order=<?php echo $ASCDESC; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                     </li>
                 <?php endfor; ?>
 
@@ -183,13 +199,13 @@ $total_pages = ceil($total_entries / $limit);
                         <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
                     <?php endif; ?>
                     <li class="page-item">
-                        <a class="page-link" href="suchen.php?search=<?php echo urlencode($suche); ?>&search_column=<?php echo $search_column; ?>&sort_column=<?php echo $sortier_collumns; ?>&sort_order=<?php echo $ASCDESC; ?>&page=<?php echo $total_pages; ?>"><?php echo $total_pages; ?></a>
+                        <a class="page-link" href="bucherSuchen_table.php?search=<?php echo urlencode($suche); ?>&search_column=<?php echo $search_column; ?>&sort_column=<?php echo $sortier_collumns; ?>&sort_order=<?php echo $ASCDESC; ?>&page=<?php echo $total_pages; ?>"><?php echo $total_pages; ?></a>
                     </li>
                 <?php endif; ?>
 
                 <!-- Next button -->
                 <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
-                    <a class="page-link" href="<?php if ($page >= $total_pages) { echo '#'; } else { echo "suchen.php?search=".urlencode($suche)."&search_column=".$search_column."&sort_column=".$sortier_collumns."&sort_order=".$ASCDESC."&page=".($page+1); } ?>" aria-label="Next">
+                    <a class="page-link" href="<?php if ($page >= $total_pages) { echo '#'; } else { echo "bucherSuchen_table.php?search=".urlencode($suche)."&search_column=".$search_column."&sort_column=".$sortier_collumns."&sort_order=".$ASCDESC."&page=".($page+1); } ?>" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

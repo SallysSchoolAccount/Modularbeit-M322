@@ -42,7 +42,7 @@ include "elementeWebseite/header.php";
                     <div class="card-body">
                         <p class="text-center">Benvenuto nella dashboard amministrativa. Sei loggato come admin.</p>
                         <div class="d-flex justify-content-center mt-3">
-                            <a href="bücher_veraendern.php" class="btn btn-primary me-2">Modifica Libri</a>
+                            <a href="bucherVeraendern_table.php" class="btn btn-primary me-2">Modifica Libri</a>
                             <a href="edit_employees.php" class="btn btn-secondary">Modifica Dipendenti</a>
                             <a href="login.php" class="btn btn-secondary">Logout</a>
                         </div>

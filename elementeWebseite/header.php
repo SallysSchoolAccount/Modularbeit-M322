@@ -27,7 +27,7 @@
         <!--Navbar-->
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="home.php" class="nav-link px-2">Home</a></li>
-            <li><a href="suchen.php" class="nav-link px-2">Suchen</a></li>
+            <li><a href="bucherSuchen_table.php" class="nav-link px-2">Suchen</a></li>
             <li><a href="überUns.php" class="nav-link px-2">über und</a></li>
         </ul>
 
