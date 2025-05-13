@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 $offset = ($page - 1) * $limit;
 
 // Whitelist von Sortierkolonnen
-$erlaubte_collumns = ['name', 'email', 'geburtstag', 'kunde_seit', 'kontaktpermail', 'id'];
+$erlaubte_collumns = ['vorname', 'name', 'email', 'geburtstag', 'kunde_seit', 'kontaktpermail', 'id'];
 if (!in_array($sortier_collumns, $erlaubte_collumns)) {
     $sortier_collumns = 'name'; // Default
 }
@@ -100,7 +100,7 @@ $total_pages = ceil($total_entries / $limit);
 <div class="container">
     <div class="d-flex justify-content-between align-items-center">
         <h2 class="pb-2 border-bottom">Kunden Suchen</h2>
-        <a href="./customerManipulation/kundeHinzufügen.php" class="btn btn-primary">
+        <a href="kundenHinzufügen.php" class="btn btn-primary">
             <i class="material-icons">add</i> Neuer Kunde
         </a>
     </div>

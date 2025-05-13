@@ -20,15 +20,14 @@ $vorname = $user['vorname'] ?? '';
 include "elementeWebseite/header.php";
 ?>
 
-
-<div class="container mt-5">
-        <div class="row">
+    <div class="container mt-5">
+        <div class="row g-4">
             <!-- Colonna per il nome e cognome -->
             <div class="col-md-3">
-                <div class="card shadow-lg">
-                    <div class="card-body">
-                        <h5>Benvenuto,</h5>
-                        <p><strong><?php echo htmlspecialchars($name . " " . $vorname); ?></strong></p>
+                <div class="card shadow-lg bg-dark text-light">
+                    <div class="card-body text-center">
+                        <h5 class="text-uppercase text-warning">Willkommen,</h5>
+                        <p class="fw-bold"><?php echo htmlspecialchars($name . " " . $vorname); ?></p>
                     </div>
                 </div>
             </div>
@@ -36,15 +35,15 @@ include "elementeWebseite/header.php";
             <!-- Colonna per la dashboard -->
             <div class="col-md-6">
                 <div class="card shadow-lg">
-                    <div class="card-header text-center bg-primary text-white">
-                        <h2>Admin Dashboard</h2>
+                    <div class="card-header text-center bg-warning text-dark">
+                        <h2 class="text-uppercase">Admin-Dashboard</h2>
                     </div>
-                    <div class="card-body">
-                        <p class="text-center">Benvenuto nella dashboard amministrativa. Sei loggato come admin.</p>
-                        <div class="d-flex justify-content-center mt-3">
-                            <a href="bucherVeraendern_table.php" class="btn btn-primary me-2">Bücher Verändern</a>
-                            <a href="kundenSuchen_table.php" class="btn btn-secondary">Kunden Verändern</a>
-                            <a href="login.php" class="btn btn-secondary">Logout</a>
+                    <div class="card-body bg-dark text-light">
+                        <p class="text-center">Willkommen im administrativen Dashboard. Sie sind als Administrator angemeldet.</p>
+                        <div class="d-flex justify-content-center mt-3 gap-2">
+                            <a href="bucherVeraendern_table.php" class="btn btn-outline-warning">Bücher bearbeiten</a>
+                            <a href="kundenSuchen_table.php" class="btn btn-outline-light">Kunden bearbeiten</a>
+                            <a href="login.php" class="btn btn-outline-danger">Abmelden</a>
                         </div>
                     </div>
                 </div>
