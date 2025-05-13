@@ -39,7 +39,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <!--Titel-->
                         <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                             <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">
-                                <a href="bookManipulation/buchDetails.php?id=<?php echo $book['id']; ?>" class="text-white">
+                                <a href="buchDetails.php?id=<?php echo $book['id']; ?>" class="text-white">
                                     <?php echo $book['kurztitle']; ?>
                                 </a>
                             </h3>

@@ -140,7 +140,7 @@ $total_pages = ceil($total_entries / $limit);
             <?php foreach ($books as $book) { ?>
                 <tr>
                     <td><?php echo htmlspecialchars($book['id']); ?></td>
-                    <td><a href="bookManipulation/buchDetails.php?id=<?php echo $book['id']; ?>">
+                    <td><a href="buchDetails.php?id=<?php echo $book['id']; ?>">
                             <?php echo htmlspecialchars(substr($book['kurztitle'], 0, 35)); ?>
                         </a>
                     </td>

@@ -5,7 +5,8 @@ if (!isset($_SESSION['admin_logged_in'])) {
     exit();
 }
 global $conn;
-include 'elementeWebseite/database_connection.php';
+include '../elementeWebseite/header.php';
+include '../elementeWebseite/database_connection.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
@@ -38,8 +39,6 @@ $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $book = $stmt->get_result()->fetch_assoc();
-
-include 'elementeWebseite/header.php';
 ?>
 
     <div class="container">
@@ -94,9 +93,9 @@ include 'elementeWebseite/header.php';
                 <textarea name="beschreibung" class="form-control" rows="3"><?php echo htmlspecialchars($book['title']); ?></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Speichern</button>
-            <a href="../bucherVeraendern_table.php" class="btn btn-secondary">Zurück</a>
+                <button type="submit" class="btn btn-primary">Speichern</button>
+            <a href="bucherVeraendern_table.php" class="btn btn-secondary">Zurück</a>
         </form>
     </div>
 
-<?php include 'elementeWebseite/footer.php'; ?>
+<?php include '../elementeWebseite/footer.php'; ?>
